@@ -40,7 +40,7 @@
     setup() {
       // The open/closed state lives outside of the Dialog and
       // is managed by you.
-      let isOpen = ref(true);
+      let isOpen = ref(false);
 
       return {
         isOpen,
