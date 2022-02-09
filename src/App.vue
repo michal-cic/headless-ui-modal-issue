@@ -8,7 +8,31 @@
     <TabPanels>
       <TabPanel>Content 1</TabPanel>
       <TabPanel>
-        <HelloWorld />
+        <!--
+          Pass the `isOpen` ref to the `open` prop, and use the `close` event
+          to set the ref back to `false` when the user clicks outside of
+          the dialog or presses the escape key.
+        -->
+        <Dialog :open="isOpen" @close="setIsOpen">
+          <DialogOverlay />
+
+          <DialogTitle>Deactivate account</DialogTitle>
+          <DialogDescription>
+            This will permanently deactivate your account
+          </DialogDescription>
+
+          <p>
+            Are you sure you want to deactivate your account? All of your data will be
+            permanently removed. This action cannot be undone.
+          </p>
+
+          <!--
+            You can render additional buttons to dismiss your dialog by setting your
+            `isOpen` state to `false`.
+          -->
+          <button @click="setIsOpen(false)">Cancel</button>
+          <button @click="handleDeactivate">Deactivate</button>
+        </Dialog>
       </TabPanel>
       <TabPanel>Content 3</TabPanel>
     </TabPanels>
@@ -16,8 +40,18 @@
 </template>
 
 <script>
-  import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-  import HelloWorld from './components/HelloWorld.vue'
+  import {
+    TabGroup,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    Dialog,
+    DialogOverlay,
+    DialogTitle,
+    DialogDescription
+  } from '@headlessui/vue'
+  import { ref } from "vue";
 
   export default {
     components: {
@@ -26,23 +60,30 @@
       Tab,
       TabPanels,
       TabPanel,
-      HelloWorld
+      Dialog,
+      DialogOverlay,
+      DialogTitle,
+      DialogDescription,
     },
     methods: {
       tabChange(index) {
         console.log('tabChange()', index);
       }
     },
+    setup() {
+      // The open/closed state lives outside of the Dialog and
+      // is managed by you.
+      let isOpen = ref(false);
+
+      return {
+        isOpen,
+        setIsOpen(value) {
+          isOpen.value = value;
+        },
+        handleDeactivate() {
+          // ...
+        }
+      };
+    },
   }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
