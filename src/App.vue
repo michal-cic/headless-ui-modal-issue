@@ -1,5 +1,5 @@
 <template>
-  <TabGroup>
+  <TabGroup @change="tabChange">
     <TabList>
       <Tab>Tab 1</Tab>
       <Tab>Tab 2</Tab>
@@ -27,6 +27,11 @@
       TabPanels,
       TabPanel,
       HelloWorld
+    },
+    methods: {
+      tabChange(index) {
+        console.log('tabChange()', index);
+      }
     },
   }
 </script>
